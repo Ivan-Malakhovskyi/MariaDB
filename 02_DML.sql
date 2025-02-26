@@ -131,3 +131,34 @@ select e.id as employeeId, e.firstName, e.lastName, e.departmentId, d.id as idIn
 	from employees as e
 	right join departments as d on d.id = e.departmentId;
 
+-- CROSS JOIN
+select e.id as employeeId, e.firstName, e.lastName, e.departmentId, d.id as idInDepartments, d.department
+	from employees as e
+	cross join departments as d;
+
+	(select e.id as employeeId, e.firstName, e.lastName, e.departmentId
+	from employees as e
+	where e.id = 3
+	)
+union 
+(select e.id as employeeId, e.firstName, e.lastName, e.departmentId
+	from employees as e
+	inner join departments as d on d.id = e.departmentId
+	where d.department = 'Seller'
+	
+)
+order by employeeId;
+
+select country.name 
+	from country 
+	where country.code not in 
+	(
+	select city.countryCode	
+		from city
+		where city.population >= 1000000
+	)
+	limit 10;
+	
+select country.name, (select count(*) from city where city.countryCode = country.code) as cityCount
+	from country 
+	order by cityCount asc; 
